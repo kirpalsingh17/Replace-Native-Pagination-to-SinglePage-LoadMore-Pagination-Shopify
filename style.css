@@ -1,0 +1,23 @@
+.load-more_wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+  .load-more_row {
+    color: #62607F;F
+    font-size: 14px;
+    line-height: 24px;
+    letter-spacing: 0.4px;
+}
+  .js-load-more {   
+    text-transform: capitalize;
+    margin: 0 0 20px;
+    letter-spacing: .4px;
+    padding: 0 60px 0;
+    font-weight: 600;
+    max-width: 380px;
+    width: 100%;
+    font-size: 14px;
+    line-height: 42px;
+}

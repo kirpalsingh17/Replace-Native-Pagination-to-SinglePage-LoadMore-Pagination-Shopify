@@ -1,0 +1,12 @@
+{% if paginate.pages > 1 %}
+<load-more class="load-more_wrap" data-next-url="{{ paginate.next.url }}"
+  data-current-page="{{ paginate.current_page  }}" data-total-pages="{{ paginate.pages }}"
+  data-page-size="{{ paginate.page_size }}" data-total-items="{{paginate.items}}">
+  <div class="load-more_row">
+    You've viewed <span load-items-count> {{ paginate.page_size }} </span> of {{paginate.items}} products
+  </div>
+  <button class="btn btn--shake btn--primary js-load-more" type="button">
+    Load more
+  </button>
+</load-more>
+{% endif %}
