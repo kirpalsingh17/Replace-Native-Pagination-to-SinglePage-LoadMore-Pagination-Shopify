@@ -1,0 +1,71 @@
+{% if paginate.pages > 1 %}
+<load-more class="load-more_wrap" data-next-url="{{ paginate.next.url }}"
+  data-current-page="{{ paginate.current_page  }}" data-total-pages="{{ paginate.pages }}"
+  data-page-size="{{ paginate.page_size }}" data-total-items="{{paginate.items}}">
+  <div class="load-more_row">
+    You've viewed <span load-items-count> {{ paginate.page_size }} </span> of {{paginate.items}} products
+  </div>
+  <button class="btn btn--shake btn--primary js-load-more" type="button">
+    Load more
+  </button>
+</load-more>
+{% endif %}
+{% stylesheet %}
+.load-more_wrap {
+display: flex;
+align-items: center;
+justify-content: center;
+flex-direction: column;
+}
+.load-more_row {
+color: #62607F;F
+font-size: 14px;
+line-height: 24px;
+letter-spacing: 0.4px;
+}
+.js-load-more {
+text-transform: capitalize;
+margin: 0 0 20px;
+letter-spacing: .4px;
+padding: 0 60px 0;
+font-weight: 600;
+max-width: 380px;
+width: 100%;
+font-size: 14px;
+line-height: 42px;
+}
+{% endstylesheet %}
+{% javascript %}
+class LoadMore extends HTMLElement {
+constructor() {
+super();
+this.addEventListener("click", this.loadMoreItems);
+}
+
+loadMoreItems() {
+const loadMoreBtn = this.querySelector('[type="button"]');
+loadMoreBtn.setAttribute("disabled", true);
+loadMoreBtn.innerHTML = "Loading";
+let { currentPage, pageSize, nextUrl, totalItems, totalPages } = this.dataset
+let nextPage = parseInt(this.dataset.currentPage) + 1
+console.log(this.dataset);
+if (currentPage >= totalPages) return false;
+
+fetch(nextUrl.replace(/page=[0-9]+/, 'page=' + nextPage))
+.then(response => response.text())
+.then((responseText) => {
+const html = responseText;
+$('#product-grid').append($(html).find('#product-grid').html());
+}).catch((e) => {
+console.error(e);
+})
+.finally(() => {
+loadMoreBtn.removeAttribute("disabled");
+loadMoreBtn.innerHTML = "Load More";
+this.dataset.currentPage = parseInt(this.dataset.currentPage) + 1;
+
+let isLastPage = parseInt(totalItems) - (nextPage * parseInt(pageSize)) < 0
+  this.querySelector('[load-items-count]').innerHTML=isLastPage ? parseInt(totalItems) : nextPage * parseInt(pageSize)
+  isLastPage && loadMoreBtn.setAttribute('style', 'display:none' ); }); } } customElements.define('load-more',
+  LoadMore);
+   {% endjavascript %}
